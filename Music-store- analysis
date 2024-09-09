@@ -23,3 +23,38 @@ on c.customer_id = i.customer_id
 group by c.customer_id , c.first_name , c.last_name
 ORDER BY total_per_customer DESC
 limit 1
+
+/* Set 2 */
+/* Q1: Write query to return the email, first name, last name, & Genre of all Rock Music listeners.  Return your list ordered alphabetically by email starting with A. */
+
+select distinct c.email , c.first_name , c.last_name from `Music_store_analysis.customer` as c
+join `Music_store_analysis.invoice` as i 
+on c.customer_id = i.customer_id
+join `Music_store_analysis.invoice line` as il
+on i.invoice_id = il.invoice_id
+join `Music_store_analysis.track` as t
+on il.track_id = t.track_id
+where t.genre_id in (select genre_id from `Music_store_analysis.genre`
+where name like "Rock")
+order by c.email
+
+/* Q2: Let's invite the artists who have written the most rock music in our dataset.  Write a query that returns the Artist name and total track count of the top 10 rock bands. */
+
+select count(track_id) as total_track , ar.name from `Music_store_analysis.track` as t 
+join `Music_store_analysis.album` as al 
+on t.album_id = al.album_id
+join `Music_store_analysis.artist` as ar
+on al.artist_id = ar.artist_id
+where genre_id in (select genre_id from `Music_store_analysis.genre`
+where name like "Rock")
+group by ar.name
+order by total_track desc
+limit 10 
+
+/* Q3: Return all the track names that have a song length longer than the average song length. 
+Return the Name and Milliseconds for each track. Order by the song length with the longest songs listed first. */
+
+select name , milliseconds from `Music_store_analysis.track`
+where milliseconds > (select avg(milliseconds) average_length_per_song from `Music_store_analysis.track`) 
+order by milliseconds desc
+
