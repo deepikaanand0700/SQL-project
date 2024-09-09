@@ -9,3 +9,17 @@ select billing_country , count(customer_id) as cusromers_count_ from `Music_stor
 /* Q3: What are top 3 values of total invoice? */
 
 select total from `Music_store_analysis.invoice` order by total desc limit 3
+
+/* Q4: Which city has the best customers? We would like to throw a promotional Music Festival in the city we made the most money.  Write a query that returns one city that has the highest sum of invoice totals. 
+Return both the city name & sum of all invoice totals */
+
+select billing_city, sum(total) as total_per_city from `Music_store_analysis.invoice` group by billing_city order by total_per_city desc limit 1
+
+/* Q5: Who is the best customer? The customer who has spent the most money will be declared the best customer. Write a query that returns the person who has spent the most money.*/
+
+select c.customer_id , c.first_name , c.last_name , sum(i.total) as total_per_customer from `Music_store_analysis.customer`  as c
+join `Music_store_analysis.invoice` as i
+on c.customer_id = i.customer_id
+group by c.customer_id , c.first_name , c.last_name
+ORDER BY total_per_customer DESC
+limit 1
