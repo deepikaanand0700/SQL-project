@@ -1,3 +1,8 @@
 /* Q1: Who is the senior most employee based on job title? */
 
 SELECT * FROM employeeORDER BY levels DESC LIMIT 1
+
+/* Q2: Which countries have the most Invoices? */
+
+select billing_country , count(customer_id) as cusromers_count_ from `Music_store_analysis.invoice` group by billing_country order by cusromers_count_ desc 
+
