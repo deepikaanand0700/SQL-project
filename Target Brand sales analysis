@@ -1,3 +1,7 @@
 # Write a SQL query to display the data types of all columns in the customers table. #
 
 select column_name , data_type from `ecommerce001-435209.Target_analysis.INFORMATION_SCHEMA.COLUMNS` where table_name = "customers"
+
+# Find the time range between which orders were placed
+
+Select min(order_purchase_timestamp) as strt_time , max(order_purchase_timestamp) as end_time from `Target_analysis.orders`
